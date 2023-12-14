@@ -7,16 +7,16 @@ typedef int bool;
 #define MAX_LINE_LENGTH 1024
 
 
-int **matrix; //macierz wejœciowa
-int wynik; //pojemnoœæ terenu przedstawiona przez liczbê
+int **matrix; //macierz wejsciowa
+int wynik; //pojemnosc terenu przedstawiona przez liczbe
 int **matrix_after; //macierz po zmianach, z zerami na brzegach
-int **roles_for_matrix_cells; //macierz ról
-int min_value; //minimalna wartoœæ w macierzy
+int **roles_for_matrix_cells; //macierz rol
+int min_value; //minimalna wartosc w macierzy
 int **result_matrix; //macierz wynikowa
 int rows, cols; //wymiary macierzy
 
-//Funkcja ³aduj¹ca macierz gdy u¿ytkownik wprowadzi wiersze z ró¿nymi iloœciami
-//liczb to funkcja dopisze zera do wszystkich wierszy aby mog³a powstaæ macierz
+//Funkcja ladujaca macierz gdy uzytkownik wprowadzi wiersze z roznymi ilosciami
+//liczb to funkcja dopisze zera do wszystkich wierszy aby mogla powstac macierz
 void reading_area() {
     FILE *file = fopen("dane_wejsciowe.txt", "r");
     char line[MAX_LINE_LENGTH];
@@ -25,11 +25,11 @@ void reading_area() {
     rows = 0; //inicjalizacja liczby wierszy
 
     if (!file) {
-        perror("B³¹d otwarcia pliku");
+        perror("Blad otwarcia pliku");
         return;
     }
 
-    // Pierwsze przejœcie: znajdowanie najwiêkszej liczby kolumn
+    // Pierwsze przejscie: znajdowanie najwiekszej liczby kolumn
     while (fgets(line, MAX_LINE_LENGTH, file)) {
         int count = 0;
         char *token = strtok(line, " \n");
@@ -45,15 +45,15 @@ void reading_area() {
 
         rows++;
     }
-    rewind(file); // Powrót na pocz¹tek pliku
+    rewind(file); // Powrot na poczatek pliku
 
-    // Alokacja pamiêci dla macierzy
+    // Alokacja pamieci dla macierzy
     matrix = malloc(rows * sizeof(int *));
     for (i = 0; i < rows; i++) {
         matrix[i] = malloc(max_cols * sizeof(int));
     }
 
-    // Drugie przejœcie: ³adowanie danych do macierzy
+    // Drugie przejscie: ladowanie danych do macierzy
     i = 0;
     while (fgets(line, MAX_LINE_LENGTH, file) && i < rows) {
         char *token = strtok(line, " \n");
@@ -65,7 +65,7 @@ void reading_area() {
             j++;
         }
 
-        // Wype³nianie reszty wiersza zerami
+        // Wypelnianie reszty wiersza zerami
         while (j < max_cols) {
             matrix[i][j] = 0;
             j++;
@@ -79,7 +79,7 @@ void reading_area() {
     cols = max_cols; // Przypisanie maksymalnej liczby kolumn
 }
 
-// Funkcja sumuj¹ca komórki w macierzy wynikowej
+// Funkcja sumujaca komorki w macierzy wynikowej
 void sum_result() {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -88,7 +88,7 @@ void sum_result() {
     }
 }
 
-// Funkcja znajduj¹ca minimaln¹ wartoœæ macierzy
+// Funkcja znajdujaca minimalna wartosc macierzy
 int find_min_value(int **matrix, int rows, int cols) {
     int min_value = matrix[0][0];
 
@@ -103,7 +103,7 @@ int find_min_value(int **matrix, int rows, int cols) {
     return min_value;
 }
 
-//funckja tworz¹ca macierz ról oraz macierz wynikow¹ role_matrix_for_cells oraz result_matrix
+//funckja tworzaca macierz rol oraz macierz wynikowa role_matrix_for_cells oraz result_matrix
 int **create_zero_filled_matrix(int rows, int cols) {
     int **matrix = (int **)malloc(rows * sizeof(int *));
     for (int i = 0; i < rows; i++) {
@@ -114,12 +114,12 @@ int **create_zero_filled_matrix(int rows, int cols) {
     }
     return matrix;
 }
-//Rola: 0 - komórka nieodwiedzona
-//Rola: 1 - odwiedzona komórka, która jest ograniczona tzn nie wyleje siê z niej ju¿ nic
-//Rola: 2 - odwiedzona komórka, dla której nie mamy pewnoœci czy mo¿e w niej ustaæ woda
-//Rola: 3 - dwiedzona komórka, która jest nieograniczona tzn woda na 100% siê wyleje
+//Rola: 0 - komorka nieodwiedzona
+//Rola: 1 - odwiedzona komorka, ktora jest ograniczona tzn nie wyleje sie z niej juz nic
+//Rola: 2 - odwiedzona komorka, dla ktorej nie mamy pewnosci czy moze w niej ustac woda
+//Rola: 3 - dwiedzona komorka, ktora jest nieograniczona tzn woda na 100% sie wyleje
 
-//Funkcja znajduj¹ca wartoœæ najwy¿szego punktu terenu
+//Funkcja znajdujaca wartosc najwyzszego punktu terenu
 int find_max_value(int **matrix, int rows, int cols) {
     int max_value = matrix[0][0];
 
@@ -135,7 +135,7 @@ int find_max_value(int **matrix, int rows, int cols) {
 }
 
 
-// Funkcja dodaj¹ca krañce do wybranej macierzy pocz¹tkowo krañce mia³y byæ oznaczone "*" ostatecznie krañce to 0
+// Funkcja dodajaca krawedzie do wybranej macierzy poczatkowo krawedzie mialy byc oznaczone "*" ostatecznie krawedzie to 0
 int **add_border(int **matrix, int rows, int cols) {
     int new_rows = rows + 2;
     int new_cols = cols + 2;
@@ -166,7 +166,7 @@ void print_matrix(int **matrix, int rows, int cols) {
 }
 
 
-//czyszczenie podanej roli z macierzy ról
+//czyszczenie podanej roli z macierzy rol
 void clear_roles(int prop) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -177,15 +177,15 @@ void clear_roles(int prop) {
     }
 }
 
-// Druga najwa¿niejsza funckja w algorytmie, której zadaniem jest okreœlenie czy s¹siad punktu równy punktowi badanemu,
-// jest ograniczony przez w³asnych s¹siadów. (ograniczony tzn. jego s¹siedzi maj¹ wy¿sz¹ wysokoœæ dlatego woda siê zatrzyma)
-// funkcja wywo³uje sam¹ siebie tyle razy ile jest punktów o takiej samej wartoœci obok siebie
-// funkcja zwraca false je¿eli woda siê wylewa czyli jest nieograniczona wystarczy ¿e tylko jeden s¹siad zwróci false a,
-// wszystkie w okó³ wtedy zostan¹ oznaczone jak nie zdatne do zatrzymania cieczy Rol¹: 3
+// Druga najwazniejsza funckja w algorytmie, ktorej zadaniem jest okreslenie czy sasiad punktu rowny punktowi badanemu,
+// jest ograniczony przez wlasnych sasiadow. (ograniczony tzn. jego sasiedzi maja wyzsza wysokosc dlatego woda sie zatrzyma)
+// funkcja wywoluje sama siebie tyle razy ile jest punktow o takiej samej wartosci obok siebie
+// funkcja zwraca false jezeli woda sie wylewa czyli jest nieograniczona wystarczy ze tylko jeden sasiad zwroci false a,
+// wszystkie w okol wtedy zostana oznaczone jak nie zdatne do zatrzymania cieczy Rola: 3
 
 bool recurency_function(int y, int x, bool is_limited) {
     roles_for_matrix_cells[y][x] = 2;
-    int directions[4][2] = {{y-1, x}, {y, x-1}, {y+1, x}, {y, x+1}};//kierunki góra, lewo, dó³, prawo
+    int directions[4][2] = {{y-1, x}, {y, x-1}, {y+1, x}, {y, x+1}};//kierunki gora, lewo, dol, prawo
 
     for (int i = 0; i < 4; i++) {
         if (roles_for_matrix_cells[directions[i][0]][directions[i][1]] == 3) {
@@ -227,7 +227,7 @@ bool recurency_function(int y, int x, bool is_limited) {
     return is_limited;
 }
 
-//kluczowa funkcja badaj¹ca s¹siadów danego punktu w macierzy
+//kluczowa funkcja badajaca sasiadow danego punktu w macierzy
 void znajdz_granice(int y, int x) {
     if (matrix_after[y+1][x+1] > min_value) {
         return;
@@ -257,7 +257,7 @@ void znajdz_granice(int y, int x) {
 
         if (matrix_after[dy][dx] == min_value) {
             if (matrix_after[dy][dx] == matrix_after[y+1][x+1]) {
-                clear_roles(2);  // Wartoœæ 2 powinna byæ przekazana jako argument funkcji
+                clear_roles(2);
                 is_limited = recurency_function(dy, dx, true);
             }
         } else if (matrix_after[dy][dx] == matrix_after[y+1][x+1] && matrix_after[dy][dx] != min_value) {
@@ -298,22 +298,22 @@ void free_memory() {
 int main() {
 
     reading_area();//wczytywanie terenu jako macierzy
-    matrix_after = add_border(matrix, rows, cols);//dodawanie zer na krañcach by u³atwiæ zadanie pêtli obliczeniowej
-    min_value = find_min_value(matrix, rows, cols) - 1;// znajdowanie najni¿szego punktu terenu
-    roles_for_matrix_cells = create_zero_filled_matrix(rows + 2, cols + 2);//tworzenie macierzy której ka¿da komórka reprezentuje role punktu terenu
-    result_matrix = create_zero_filled_matrix(rows, cols); //stwórz macierz wynikow¹ która bêdzie przechowywaæ pojemnoœci danych punktów
+    matrix_after = add_border(matrix, rows, cols);//dodawanie zer na krancach by ulatwic zadanie petli obliczeniowej
+    min_value = find_min_value(matrix, rows, cols) - 1;// znajdowanie najnizszego punktu terenu
+    roles_for_matrix_cells = create_zero_filled_matrix(rows + 2, cols + 2);//tworzenie macierzy ktorej kazda komorka reprezentuje role punktu terenu
+    result_matrix = create_zero_filled_matrix(rows, cols); //stworz macierz wynikowa ktora bedzie przechowywala pojemnosci danych punktow
 
-    //wyœwietlanie powierzchni terenu w postaci macierzy
+    //wyswietlanie powierzchni terenu w postaci macierzy
     printf("Powierzchnia terenu: \n");
     print_matrix(matrix_after, rows + 2, cols + 2);
     int h, i, j;
     int largest_value = find_max_value(matrix, rows, cols);
 
-    //main loop
-    //za³o¿enie algorytmu jest takie, ¿e zaczynamy od najni¿szego poziomu i sprawdzamy ka¿dy punkt terenu, czy mo¿emy dodaæ JEDEN
-    //t¹ czynnoœc powtarzamy dla ka¿dej warstwy terenu np dla terenu o najwyszym punkcie 3 a najnizszym 1. Tworzymy 2 warstwy
+    // main loop
+    // zalozenie algorytmu jest takie, ze zaczynamy od najnizszego poziomu i sprawdzamy kazdy punkt terenu, czy mozemy dodac JEDEN
+    // ta czynnosc powtarzamy dla kazdej warstwy terenu np dla terenu o najwyzszym punkcie 3 a najnizszym 1. Tworzymy 2 warstwy
     for (h = 0; h < largest_value; h++) {
-        clear_roles(3);//czyszczenie roli "3" dla ka¿dego punktu
+        clear_roles(3); //czyszczenie roli "3" dla kazdego punktu
         min_value += 1;
         for (i = 0; i < rows; i++) {
             for (j = 0; j < cols; j++) {
@@ -323,12 +323,13 @@ int main() {
     }
     //
 
-    //wyœwietlanie wyników
+    // wyswietlanie wynikow
     sum_result();
     printf("\nPojemnosc tego terenu: \n");
-    result_matrix = add_border(result_matrix,rows,cols); //dodajemy 0 na krañcach wyniku z powodów estetycznych
-    print_matrix(result_matrix,rows+2,cols+2);
+    result_matrix = add_border(result_matrix, rows, cols); //dodajemy 0 na krawedziach wyniku z powodow estetycznych
+    print_matrix(result_matrix, rows + 2, cols + 2);
     printf("\nCalkowita pojemnosc twojego terenu to: %d jednostek szesciennych\n", wynik);
-    free_memory(); //wyczyść pamięć
+    free_memory(); //wyczysc pamiec
     return 0;
 }
+
