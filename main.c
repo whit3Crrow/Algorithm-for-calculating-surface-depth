@@ -6,14 +6,13 @@ typedef int bool;
 #define false 0
 #define MAX_LINE_LENGTH 1024
 
-
 int **matrix; //macierz wejsciowa
 int wynik; //pojemnosc terenu przedstawiona przez liczbe
 int **matrix_after; //macierz po zmianach, z zerami na brzegach
 int **roles_for_matrix_cells; //macierz rol
 int min_value; //minimalna wartosc w macierzy
 int **result_matrix; //macierz wynikowa
-int rows, cols; //wymiary macierzy
+int rows, cols; //wymiary macierzy 
 
 //Funkcja ladujaca macierz gdy uzytkownik wprowadzi wiersze z roznymi ilosciami
 //liczb to funkcja dopisze zera do wszystkich wierszy aby mogla powstac macierz
